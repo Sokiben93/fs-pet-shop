@@ -25,7 +25,8 @@
   },
   "homepage": "https://github.com/gSchool/fs-pet-shop#readme",
   "dependencies": {
-    "nodemon": "^1.9.1"
+    "nodemon": "^1.19.4",
+    "npm": "^8.14.0"
   },
   "devDependencies": {
     "chai": "^3.5.0",
