@@ -35,10 +35,10 @@ const server = http.createServer((req, res) => {
       let body = "";
       req.on("data", (chuck) => {
         body += chuck;
-        console.log("body:", body);
+        // console.log("body:", body);
       });
       req.on("end", () => {
-        console.log("body:", body);
+        // console.log("body:", body);
         let newPet = JSON.parse(body);
         if ((req.url = "/pets")) {
           fs.readFile("pets.json", "utf-8", (err, data) => {
