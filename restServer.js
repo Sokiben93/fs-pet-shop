@@ -6,9 +6,25 @@ var petsPath = path.join(__dirname, "pets.json");
 
 var express = require("express"); // Setup express and app
 var app = express();
-var port = process.env.PORT || 4000;
-
+var port = process.env.PORT || 6000;
 var morgan = require("morgan");
+
+// var { Pool } = require('pg');
+
+// const pool = new Pool ({
+//   user: 'thanhhuyle',
+//   host: 'localhost', //thanhhuyle://localhost/pg
+//   database: 'petshop',
+//   port: 5432,
+// })
+
+// app.get('/', (req, res) => {
+//   pool.query('SELECT * FROM pets', (err, petsJSON) => {
+//     res.json(petsJSON.rows);
+//     console.log(petsJSON.rows);
+//   })
+// })
+
 
 app.disable("x-powered-by");
 app.use(morgan("short"));
