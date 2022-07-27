@@ -16,7 +16,7 @@ const pool = new Pool ({
   host: 'localhost',
   database: 'petshop',
   port: 5432,
-})
+});
 
 app.disable("x-powered-by");
 app.use(morgan("short"));
@@ -27,8 +27,8 @@ app.get('/pets', (req, res) => {
   pool.query('SELECT * FROM pets', (err, petsJSON) => {
     res.json(petsJSON.rows);
     console.log(petsJSON.rows);
-  })
-})
+  });
+});
 
 app.get('/pets/:id', (req, res) => {
   const id = req.params.id;
@@ -39,14 +39,14 @@ app.get('/pets/:id', (req, res) => {
     } else {
       res.sendStatus(404);
     }
-  })
-})
+  });
+});
 
 /* ------------------------ POST -------------------------- */
 app.post('/pets', (req, res) => {
   const {age, name, kind} = req.body;
   pool.query(`INSERT INTO pets (age, kind, name) VALUES ($1, $2, $3) RETURNING *;`,[age, kind, name]).then( data => {
-    res.send(data.rows);
+    res.send(data.rows[0]);
   })
 })
 
@@ -59,10 +59,15 @@ app.patch('/pets/:id', (req, res) => {
       age = COALESCE($2, age),
       kind = COALESCE($3, kind)
         WHERE id = $4
-        RETURNING *;`,[name, age, kind, id]).then( results => {
-          res.send(results.rows[0]);
-        })
-})
+        RETURNING *;`,[name, age, kind, id]).then( data => {
+          if (data.rows.length === 0) {
+            res.sendStatus(404);
+          } else {
+          res.send(data.rows[0]);
+          console.log(data.rows[0])
+          }
+        });
+});
 
 /* ------------------------ DELETE ------------------------ */
 app.delete('/pets/:id', (req, res) => {
@@ -73,8 +78,8 @@ app.delete('/pets/:id', (req, res) => {
     } else {
       res.sendStatus(204);
     }
-  })
-})
+  });
+});
 
 // handle all internal server errors
 app.get("/boom", (req, res, next) => {
